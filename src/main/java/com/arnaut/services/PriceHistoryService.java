@@ -1,18 +1,17 @@
-package com.service;
+package com.arnaut.services;
 
 
-import com.repository.PriceHistoryRepo;
-import com.entity.PriceHistory;
+import com.arnaut.entities.PriceHistory;
+import com.arnaut.repositories.PriceHistoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Transactional
 @Service

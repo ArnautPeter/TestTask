@@ -1,4 +1,4 @@
-package com.entity;
+package com.arnaut.entities;
 
 public class NamePrice {
 
@@ -19,13 +19,5 @@ public class NamePrice {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "NamePrice{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                '}';
     }
 }

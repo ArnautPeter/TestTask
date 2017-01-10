@@ -1,7 +1,7 @@
-package com.service;
+package com.arnaut.services;
 
-import com.entity.Product;
-import com.repository.ProductRepo;
+import com.arnaut.repositories.ProductRepo;
+import com.arnaut.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +23,9 @@ public class ProductService {
 
     public Product getById(int id) {
         return productRepo.findOne(id);
+    }
+
+    public int getMaxProductId() {
+        return 20;
     }
 }

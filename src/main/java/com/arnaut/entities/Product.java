@@ -1,4 +1,4 @@
-package com.entity;
+package com.arnaut.entities;
 
 
 import org.springframework.transaction.annotation.Transactional;
@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -18,6 +19,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @NotNull
     private String name;
 
     public int getId() {
