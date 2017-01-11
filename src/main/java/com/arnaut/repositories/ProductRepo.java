@@ -12,9 +12,6 @@ import java.util.List;
 @Repository
 public interface ProductRepo extends CrudRepository<Product, Integer>{
 
-    @Query("select max(id) from Product")
-    int getMaxId();
-
     @Override
     Product save(Product product);
 

@@ -6,11 +6,9 @@ import com.arnaut.entities.PriceHistory;
 import com.arnaut.services.ProductService;
 import com.arnaut.entities.Product;
 import com.arnaut.services.PriceHistoryService;
-import com.arnaut.validator.PolicyValidator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +27,6 @@ public class Controller {
 
     @Autowired
     ProductService productService;
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(new PolicyValidator());
-    }
-
 
     @RequestMapping("/products")
     public List<Product> getAllProducts() {
@@ -96,19 +87,25 @@ public class Controller {
 
     @RequestMapping(value = "/priceHistory/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> addNewPrice(@Valid @RequestBody PriceHistory priceHistory) {
-        priceHistoryService.add(priceHistory);
-
-        return ResponseEntity.ok("Added");
+    public ResponseEntity<String> addNewPrice(@RequestBody PriceHistory priceHistory) {
+        if (priceHistoryService.countProducts(priceHistory.getProductId()) > 0) {
+            priceHistoryService.add(priceHistory);
+            return ResponseEntity.ok("Added");
+        }
+        return ResponseEntity.ok("Wrong productId");
     }
 
     @RequestMapping(value = "/priceHistory/edit", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> editPrice(@Valid @RequestBody PriceHistory priceHistory) {
-
+    public ResponseEntity<String> editPrice(@RequestBody PriceHistory priceHistory) {
         PriceHistory tempPriceHistory = priceHistoryService.getById(priceHistory.getId());
         if (tempPriceHistory == null) {
             return ResponseEntity.ok("Record with id " + priceHistory.getId() + " not found");
+        }
+
+        if (priceHistoryService.countProducts(priceHistory.getProductId()) == 0) {
+            priceHistoryService.add(priceHistory);
+            return ResponseEntity.ok("Wrong productId");
         }
 
         tempPriceHistory.setPrice(priceHistory.getPrice());
@@ -117,5 +114,10 @@ public class Controller {
         priceHistoryService.add(tempPriceHistory);
 
         return ResponseEntity.ok("Changed");
+    }
+
+    @RequestMapping("/test/{id}")
+    public int test(@PathVariable("id") int id) {
+        return priceHistoryService.countProducts(id);
     }
 }

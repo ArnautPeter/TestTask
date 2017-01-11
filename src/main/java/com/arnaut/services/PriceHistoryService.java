@@ -55,4 +55,8 @@ public class PriceHistoryService {
     public void deleteById(int id) {
         priceHistoryRepo.delete(id);
     }
+
+    public int countProducts(Integer productId) {
+        return priceHistoryRepo.countValues(productId);
+    }
 }

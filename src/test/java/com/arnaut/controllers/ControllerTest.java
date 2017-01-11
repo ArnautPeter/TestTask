@@ -98,8 +98,16 @@ public class ControllerTest {
 
     @Test
     public void addNewPriceTest() {
+        when(priceHistoryService.countProducts(0)).thenReturn(1);
         ResponseEntity<String> result = controller.addNewPrice(new PriceHistory());
         assertThat(result.toString(), containsString("Added"));
+    }
+
+    @Test
+    public void addNewPriceWrongProductId() {
+        when(priceHistoryService.countProducts(0)).thenReturn(0);
+        ResponseEntity<String> result = controller.addNewPrice(new PriceHistory());
+        assertThat(result.toString(), containsString("Wrong productId"));
     }
 
     @Test
@@ -113,11 +121,22 @@ public class ControllerTest {
     }
 
     @Test
+    public void editPriceWrongProductIdTest() {
+        int id = 5;
+        PriceHistory priceHistory = new PriceHistory();
+        when(priceHistoryService.getById(id)).thenReturn(priceHistory);
+        priceHistory.setId(5);
+        ResponseEntity<String> result = controller.editPrice(priceHistory);
+        assertThat(result.toString(), containsString("Wrong productId"));
+    }
+
+    @Test
     public void editPriceTest() {
         int id = 5;
         PriceHistory priceHistory = new PriceHistory();
         when(priceHistoryService.getById(id)).thenReturn(priceHistory);
         priceHistory.setId(5);
+        when(priceHistoryService.countProducts(0)).thenReturn(1);
         ResponseEntity<String> result = controller.editPrice(priceHistory);
         assertThat(result.toString(), containsString("Changed"));
     }

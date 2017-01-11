@@ -17,7 +17,10 @@ public interface PriceHistoryRepo extends CrudRepository<PriceHistory, Integer> 
     List<PriceHistory> findByProductId(@Param("productId") int productId);
 
     @Query("FROM PriceHistory c WHERE validdata <= :currentDate")
-    List<PriceHistory> findPriceBeforeDate(@Param("currentDate")String currentDate);
+    List<PriceHistory> findPriceBeforeDate(@Param("currentDate") String currentDate);
+
+    @Query("select count(*) from PriceHistory where product_id = :productId")
+    int countValues(@Param("productId") Integer productId);
 
     @Override
     List<PriceHistory> findAll();
