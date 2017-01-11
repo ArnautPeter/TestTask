@@ -15,7 +15,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "price_history")
@@ -31,14 +31,14 @@ public class PriceHistory {
     @Min(0)
     private int price;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="validdata")
     @NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd' 'HH:mm:ss")
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd' 'HH:mm:ss", timezone = "UTC")
-    private Date validDate;
+    private LocalDateTime validDate;
 
     @NotNull
+    @Min(1)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int productId;
 
@@ -58,11 +58,11 @@ public class PriceHistory {
         this.price = price;
     }
 
-    public Date getValidDate() {
+    public LocalDateTime getValidDate() {
         return validDate;
     }
 
-    public void setValidDate(Date validDate) {
+    public void setValidDate(LocalDateTime validDate) {
         this.validDate = validDate;
     }
 

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +38,8 @@ public class PriceHistoryService {
         Map<Integer, PriceHistory> result = new HashMap<>();
         for (PriceHistory priceHistory : list) {
             if (result.containsKey(priceHistory.getProductId())) {
-                Date date = result.get(priceHistory.getProductId()).getValidDate();
-                if(date.after(priceHistory.getValidDate()))
+                LocalDateTime date = result.get(priceHistory.getProductId()).getValidDate();
+                if(date.isAfter(priceHistory.getValidDate()))
                     continue;
             }
             result.put(priceHistory.getProductId(), priceHistory);

@@ -52,8 +52,7 @@ public class Controller {
 
     @RequestMapping("/price")
     public List<PriceHistory> getAllPriceHistory() {
-        List<PriceHistory> priceHistories = priceHistoryService.getAllPriceHistory();
-        return priceHistories;
+        return priceHistoryService.getAllPriceHistory();
     }
 
     @RequestMapping(value = "/price/{name}", method = RequestMethod.GET)
@@ -67,8 +66,7 @@ public class Controller {
             }
         }
 
-        List<PriceHistory> priceHistories = priceHistoryService.getByProductId(productId);
-        return priceHistories;
+        return priceHistoryService.getByProductId(productId);
     }
 
     @RequestMapping(value = "/price/report/{date}", method = RequestMethod.GET)
@@ -78,6 +76,7 @@ public class Controller {
         NamePrice namePrice;
         for (PriceHistory priceHistory : priceHistories) {
             namePrice = new NamePrice();
+            int i = priceHistory.getProductId();
             namePrice.setName(productService.getById(priceHistory.getProductId()).getName());
             namePrice.setPrice(priceHistory.getPrice());
             namePrices.add(namePrice);
@@ -104,7 +103,6 @@ public class Controller {
     }
 
     @RequestMapping(value = "/priceHistory/edit", method = RequestMethod.POST)
-    @Valid
     @ResponseBody
     public ResponseEntity<String> editPrice(@Valid @RequestBody PriceHistory priceHistory) {
 

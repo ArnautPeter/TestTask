@@ -17,15 +17,11 @@ public class ProductService {
         return productRepo.findAll();
     }
 
-    public void addProduct(Product name) {
-        productRepo.save(name);
+    public void addProduct(Product product) {
+        productRepo.save(product);
     }
 
     public Product getById(int id) {
         return productRepo.findOne(id);
-    }
-
-    public int getMaxProductId() {
-        return 20;
     }
 }
